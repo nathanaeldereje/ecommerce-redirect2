@@ -3,20 +3,22 @@
   <head>
     <title>Payment Complete</title>
     <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const txRef = urlParams.get("tx_ref");
+
       setTimeout(() => {
-        <?php if (isset($_GET['tx_ref'])): ?>
-          window.location.href = `ecommerceapp://payment-success?tx_ref=<?php echo htmlspecialchars($_GET['tx_ref']); ?>`;
-        <?php endif; ?>
+        if (txRef) {
+          window.location.href = `ecommerceapp://payment-success?tx_ref=${txRef}`;
+        }
       }, 4000); // Wait 4 seconds before redirecting
     </script>
   </head>
   <body>
-    <h1>Thank you for yourr payment!</h1>
+    <h1>Thank you for your payment!</h1>
     <p>You will be redirected shortly...</p>
-    <p>
-      <a href="ecommerceapp://payment-success?tx_ref=<?php echo isset($_GET['tx_ref']) ? htmlspecialchars($_GET['tx_ref']) : ''; ?>">
-        Open App Now
-      </a>
-    </p>
+    <p><a id="openApp">Open App Now</a></p>
+    <script>
+      document.getElementById("openApp").href = `ecommerceapp://payment-success?tx_ref=${txRef}`;
+    </script>
   </body>
 </html>
